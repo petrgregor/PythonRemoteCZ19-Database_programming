@@ -8,8 +8,9 @@ Create a car_rental database. Then create the tables cars, clients, bookings acc
     bookings: booking_id(int, pk), client_id(int), car_id(int), start_date(date), end_date(date), total_amount(int)
 
 """
-from sqlalchemy import Column, Integer, String, Date
+from sqlalchemy import Column, Integer, String, Date, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
@@ -22,6 +23,7 @@ class Car(Base):
     year = Column(Integer, nullable=False)
     horse_power = Column(Integer, nullable=False)
     price_per_day = Column(Integer, nullable=False)
+    bookings = relationship("Booking", back_populates="car", cascade="all, delete", passive_deletes=True)
 
     def __repr__(self):
         return (f"<Car: id = {self.car_id}, "
@@ -40,6 +42,7 @@ class Client(Base):
     surname = Column(String(30), nullable=False)
     address = Column(String(50), nullable=False)
     city = Column(String(30), nullable=False)
+    bookings = relationship("Booking", back_populates="client", cascade="all, delete", passive_deletes=True)
 
     def __repr__(self):
         return (f"<Client: id = {self.client_id}, "
@@ -53,11 +56,13 @@ class Booking(Base):
     __tablename__ = "bookings"
 
     booking_id = Column(Integer, primary_key=True, autoincrement=True)
-    client_id = Column(Integer, nullable=False)
-    car_id = Column(Integer, nullable=False)
+    client_id = Column(Integer, ForeignKey("clients.client_id", ondelete="CASCADE"), nullable=False)
+    car_id = Column(Integer, ForeignKey("cars.car_id", ondelete="CASCADE"), nullable=False)
     start_date = Column(Date, nullable=False)
     end_date = Column(Date, nullable=False)
     total_amount = Column(Integer, nullable=False)
+    car = relationship("Car", back_populates="bookings")
+    client =relationship("Client", back_populates="bookings")
 
     def __repr__(self):
         return (f"<Booking: id = {self.booking_id}, "
