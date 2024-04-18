@@ -23,8 +23,13 @@ class Car(Base):
     horse_power = Column(Integer, nullable=False)
     price_per_day = Column(Integer, nullable=False)
 
-    def __str__(self):
-        return f"<Car #{self.car_id}, {self.producer}>"
+    def __repr__(self):
+        return (f"<Car: id = {self.car_id}, "
+                f"producer = {self.producer}, "
+                f"model = {self.model}, "
+                f"year = {self.year}, "
+                f"horse_power = {self.horse_power}, "
+                f"price_per_day = {self.price_per_day}>")
 
 
 class Client(Base):
@@ -36,8 +41,12 @@ class Client(Base):
     address = Column(String(50), nullable=False)
     city = Column(String(30), nullable=False)
 
-    def __str__(self):
-        return f"<Client #{self.client_id}: {self.name} {self.surname} {self.city}>"
+    def __repr__(self):
+        return (f"<Client: id = {self.client_id}, "
+                f"name = {self.name}, "
+                f"surname = {self.surname}, "
+                f"address = {self.address}, "
+                f"city = {self.city}>")
 
 
 class Booking(Base):
@@ -50,5 +59,10 @@ class Booking(Base):
     end_date = Column(Date, nullable=False)
     total_amount = Column(Integer, nullable=False)
 
-    def __str__(self):
-        return f"<Booking #{self.booking_id}: Client #{self.client_id} Car #{self.car_id}>"
+    def __repr__(self):
+        return (f"<Booking: id = {self.booking_id}, "
+                f"client_id = {self.client_id}, "
+                f"car_id = {self.car_id}, "
+                f"start_date = {self.start_date}, "
+                f"end_date = {self.end_date}, "
+                f"total_amount = {self.total_amount}>")
