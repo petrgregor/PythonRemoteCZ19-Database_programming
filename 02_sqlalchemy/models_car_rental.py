@@ -14,6 +14,7 @@ from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
+
 class Car(Base):
     __tablename__ = "cars"
 
@@ -62,7 +63,7 @@ class Booking(Base):
     end_date = Column(Date, nullable=False)
     total_amount = Column(Integer, nullable=False)
     car = relationship("Car", back_populates="bookings")
-    client =relationship("Client", back_populates="bookings")
+    client = relationship("Client", back_populates="bookings")
 
     def __repr__(self):
         return (f"<Booking: id = {self.booking_id}, "
