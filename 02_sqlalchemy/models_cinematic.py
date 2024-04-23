@@ -1,9 +1,10 @@
 """
-Directors (class) - table directors: director_id (PK), name, surname, rating
-Movies (class) - table movies: movie_id (PK), title, year, category, director_id, rating
+Task 3
+Create a session that we will use to execute queries.
 """
+
 from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 
@@ -15,6 +16,7 @@ class Director(Base):
     name = Column(String(20))
     surname = Column(String(30))
     rating = Column(Integer)
+    movies = relationship("Movie", back_populates="director")  # Task 2
 
     def __repr__(self):
         return (f"<Director id={self.director_id}, "
@@ -31,6 +33,7 @@ class Movie(Base):
     category = Column(String(20))
     director_id = Column(Integer, ForeignKey("directors.director_id"))
     rating = Column(Integer)
+    director = relationship("Director", back_populates="movies")  # Task 2
 
     def __repr__(self):
         return (f"<Movie id={self.movie_id}, "
